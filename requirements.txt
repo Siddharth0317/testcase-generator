@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+spacy>=3.0.0
+pydantic
+streamlit
+requests
+python-dotenv
+pytest
+selenium
+click
+rich
+jsonlines
+streamlit-extras
