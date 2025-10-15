@@ -1,20 +1,53 @@
-{"text": "User can log in using email and password", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "System should allow files up to 10MB to be uploaded", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "Page load time should be under 2 seconds", "labels": {"functional":0, "nonfunctional":1}}
-{"text": "Password must have at least 8 characters and include a number", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "Application should handle 100 concurrent users without errors", "labels": {"functional":0, "nonfunctional":1}}
-{"text": "The system should send an email after successful registration", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "All API responses should return within 500 milliseconds", "labels": {"functional":0, "nonfunctional":1}}
-{"text": "User can reset password using OTP sent to email", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "Website should be accessible from mobile and desktop browsers", "labels": {"functional":0, "nonfunctional":1}}
-{"text": "Search feature should return relevant results instantly", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "System should encrypt all user data using AES-256", "labels": {"functional":0, "nonfunctional":1}}
-{"text": "Users can update profile picture and bio", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "The application should recover from unexpected crashes", "labels": {"functional":0, "nonfunctional":1}}
-{"text": "Login should fail with invalid credentials", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "System must support dark mode and light mode themes", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "Database queries should complete under 200ms", "labels": {"functional":0, "nonfunctional":1}}
-{"text": "Admin can delete and suspend user accounts", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "The system should maintain 99.9% uptime", "labels": {"functional":0, "nonfunctional":1}}
-{"text": "User session should expire after 15 minutes of inactivity", "labels": {"functional":1, "nonfunctional":0}}
-{"text": "System should log all failed login attempts", "labels": {"functional":1, "nonfunctional":0}}
+{"text": "The system should allow users to log in using email and password.", "labels": {"functional": 1}}
+{"text": "The system should allow users to reset their password using a valid email link.", "labels": {"functional": 1}}
+{"text": "The application should load the dashboard within 2 seconds.", "labels": {"performance": 1}}
+{"text": "The system should validate uploaded files to be under 5MB.", "labels": {"functional": 1}}
+{"text": "The website should be accessible on mobile devices and tablets.", "labels": {"nonfunctional": 1}}
+{"text": "The system must prevent multiple failed login attempts within 5 minutes.", "labels": {"functional": 1}}
+{"text": "The website should support at least 1000 concurrent users without crashing.", "labels": {"performance": 1}}
+{"text": "The application should remember user preferences across sessions.", "labels": {"nonfunctional": 1}}
+{"text": "Users should be able to update their profile information.", "labels": {"functional": 1}}
+{"text": "The system should send email notifications for password changes.", "labels": {"functional": 1}}
+{"text": "The system should respond to user queries within 1 second.", "labels": {"performance": 1}}
+{"text": "The website must comply with accessibility standards.", "labels": {"nonfunctional": 1}}
+{"text": "The system should allow users to upload profile pictures in JPEG or PNG format.", "labels": {"functional": 1}}
+{"text": "The application should encrypt sensitive user data during transmission.", "labels": {"nonfunctional": 1}}
+{"text": "The system should automatically log out users after 15 minutes of inactivity.", "labels": {"functional": 1}}
+{"text": "The website should render correctly on Chrome, Firefox, and Edge.", "labels": {"nonfunctional": 1}}
+{"text": "The system should be able to process 500 transactions per second.", "labels": {"performance": 1}}
+{"text": "Users should be able to search for items using keywords.", "labels": {"functional": 1}}
+{"text": "The application should allow bulk upload of data without errors.", "labels": {"functional": 1}}
+{"text": "The system should recover from server crashes within 2 minutes.", "labels": {"performance": 1}}
+{"text": "The website should use HTTPS for all communications.", "labels": {"nonfunctional": 1}}
+{"text": "Users should be able to delete their accounts permanently.", "labels": {"functional": 1}}
+{"text": "The system should maintain transaction logs for 6 months.", "labels": {"nonfunctional": 1}}
+{"text": "The application should allow users to filter search results by category.", "labels": {"functional": 1}}
+{"text": "The system should handle at least 100 simultaneous file uploads.", "labels": {"performance": 1}}
+{"text": "The website should have a consistent layout across different screen sizes.", "labels": {"nonfunctional": 1}}
+{"text": "Users should be able to export reports in CSV and PDF formats.", "labels": {"functional": 1}}
+{"text": "The application should validate form inputs before submission.", "labels": {"functional": 1}}
+{"text": "The system should allow password changes to be completed within 5 seconds.", "labels": {"performance": 1}}
+{"text": "The website should have a visually consistent theme across pages.", "labels": {"nonfunctional": 1}}
+{"text": "Users should receive confirmation emails after completing transactions.", "labels": {"functional": 1}}
+{"text": "The system should recover lost sessions after a network failure.", "labels": {"nonfunctional": 1}}
+{"text": "The application should allow multi-language support for English and Spanish.", "labels": {"nonfunctional": 1}}
+{"text": "The system should allow admin users to manage user permissions.", "labels": {"functional": 1}}
+{"text": "The application should support uploading files up to 50MB without crashing.", "labels": {"performance": 1}}
+{"text": "The website should load images lazily to improve performance.", "labels": {"performance": 1}}
+{"text": "Users should be able to comment on posts and edit their comments.", "labels": {"functional": 1}}
+{"text": "The system should automatically backup data every 24 hours.", "labels": {"nonfunctional": 1}}
+{"text": "The application should provide error messages for invalid inputs.", "labels": {"functional": 1}}
+{"text": "The website should maintain a 99.9% uptime per month.", "labels": {"performance": 1}}
+{"text": "Users should be able to view their activity history in their profile.", "labels": {"functional": 1}}
+{"text": "The system should encrypt all stored passwords using a secure algorithm.", "labels": {"nonfunctional": 1}}
+{"text": "The application should allow drag-and-drop file uploads.", "labels": {"functional": 1}}
+{"text": "The website should compress images and scripts to reduce load time.", "labels": {"performance": 1}}
+{"text": "Users should receive notifications for system updates.", "labels": {"functional": 1}}
+{"text": "The system should be compatible with older browser versions.", "labels": {"nonfunctional": 1}}
+{"text": "The application should allow undo/redo actions in form inputs.", "labels": {"functional": 1}}
+{"text": "The system should process batch jobs within the SLA limits.", "labels": {"performance": 1}}
+{"text": "The website should have SEO-friendly URLs and metadata.", "labels": {"nonfunctional": 1}}
+{"text": "Users should be able to like and share posts.", "labels": {"functional": 1}}
+{"text": "The application should allow filtering and sorting of product listings.", "labels": {"functional": 1}}
+{"text": "The system should handle 200 simultaneous API requests without failure.", "labels": {"performance": 1}}
+{"text": "The website should provide clear navigation menus and breadcrumbs.", "labels": {"nonfunctional": 1}}

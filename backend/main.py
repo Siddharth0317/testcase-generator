@@ -1,43 +1,48 @@
-from fastapi import FastAPI, Body
-from fastapi.middleware.cors import CORSMiddleware
-from backend.nlp_engine import get_engine
-from backend.export_utils import export_to_csv, export_to_pdf
-from backend.test_runner import run_selenium_test
-from fastapi.responses import FileResponse
+# backend/main.py
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List, Dict
+from backend.nlp_engine import generate_test_cases
+from fastapi.responses import Response
+import json
 
-app = FastAPI(title="AI Test Case Generator")
+app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class Requirement(BaseModel):
+    requirement: str
 
 @app.post("/generate")
-def generate_test_cases(req: dict = Body(...)):
-    requirement = req.get("requirement", "")
-    engine = get_engine()
-    test_cases = engine.generate_test_cases(requirement)
-    return {"test_cases": test_cases}
+def generate(req: Requirement) -> List[Dict]:
+    return generate_test_cases(req.requirement)
 
+@app.post("/generate_selenium")
+def selenium_export(test_cases: list):
+    """
+    Accepts a list of test cases and returns a Selenium Python script.
+    """
+    file_path = generate_selenium_script(test_cases)
+    return FileResponse(file_path, media_type="text/x-python", filename="selenium_test_cases.py")
 
-@app.post("/export/{format}")
-def export_test_cases(format: str, req: dict = Body(...)):
-    test_cases = req.get("test_cases", [])
-    if format == "csv":
-        path = export_to_csv(test_cases)
-    elif format == "pdf":
-        path = export_to_pdf(test_cases)
-    else:
-        return {"error": "Unsupported format"}
-    return FileResponse(path, filename=os.path.basename(path))
+@app.post("/export/pdf")
+def export_pdf(tests: List[Dict]):
+    from fpdf import FPDF
 
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(0, 10, "Generated Test Cases", ln=True, align="C")
+    pdf.set_font("Arial", "", 12)
 
-@app.post("/run-selenium")
-def run_selenium(req: dict = Body(...)):
-    url = req.get("url", "https://example.com")
-    steps = req.get("steps", [])
-    result = run_selenium_test(url, steps)
-    return {"status": "completed" if result else "failed"}
+    for t in tests:
+        pdf.ln(5)
+        pdf.multi_cell(0, 8, f"Title: {t['title']}")
+        pdf.multi_cell(0, 8, f"Type: {t['type']}")
+        pdf.multi_cell(0, 8, f"Description: {t['description']}")
+        pdf.multi_cell(0, 8, f"Steps:")
+        for s in t['steps']:
+            pdf.multi_cell(0, 8, f" - {s}")
+        pdf.multi_cell(0, 8, f"Expected Outcome: {t['expected']}")
+        pdf.ln(5)
+
+    pdf_output = pdf.output(dest='S').encode('latin1')
+    return Response(pdf_output, media_type="application/pdf")

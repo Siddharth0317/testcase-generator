@@ -1,40 +1,50 @@
+import spacy
+from spacy.util import minibatch, compounding
 import random
 import json
 from pathlib import Path
-import spacy
-from spacy.util import minibatch, compounding
+from spacy.training.example import Example
 
-def main(data_file="sample_tests_expanded.jsonl", output_dir="models/testgen_model", n_iter=10):
-    texts, cats = [], []
-    with open(data_file, "r", encoding="utf8") as f:
-        for line in f:
-            obj = json.loads(line)
-            texts.append(obj["text"])
-            cats.append(obj.get("labels", {}))
+# Parameters
+DATA_FILE = "data/sample_tests.jsonl"
+OUTPUT_DIR = "models/testgen_model"
+N_ITER = 10
 
-    nlp = spacy.blank("en")
-    textcat = nlp.add_pipe("textcat", last=True)
-    labels = set()
-    for c in cats:
-        labels.update(c.keys())
-    for l in labels:
-        textcat.add_label(l)
+# Load training data
+texts, labels = [], []
+with open(DATA_FILE, "r", encoding="utf8") as f:
+    for line in f:
+        obj = json.loads(line)
+        texts.append(obj["text"])
+        labels.append(obj["labels"])
 
-    optimizer = nlp.begin_training()
-    train_data = list(zip(texts, [{"cats": c} for c in cats]))
+# Create blank NLP model
+nlp = spacy.blank("en")
 
-    for i in range(n_iter):
-        random.shuffle(train_data)
-        losses = {}
-        batches = minibatch(train_data, size=compounding(4.0, 32.0, 1.001))
-        for batch in batches:
-            texts_batch, annotations = zip(*batch)
-            nlp.update(texts_batch, annotations, sgd=optimizer, drop=0.2, losses=losses)
-        print(f"Iter {i+1}/{n_iter} - Losses: {losses}")
+# Add text classifier
+textcat = nlp.add_pipe("textcat", last=True)
+for label_name in set(k for d in labels for k in d.keys()):
+    textcat.add_label(label_name)
 
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
-    nlp.to_disk(output_dir)
-    print("✅ Saved model to", output_dir)
+# Prepare training data
+train_data = list(zip(texts, [{"cats": l} for l in labels]))
 
-if __name__ == "__main__":
-    main()
+# --- Training loop ---
+optimizer = nlp.begin_training()
+
+for i in range(N_ITER):
+    random.shuffle(train_data)
+    losses = {}
+    batches = minibatch(train_data, size=compounding(4.0, 32.0, 1.001))
+    for batch in batches:
+        examples = []
+        for text, annotation in batch:
+            doc = nlp.make_doc(text)
+            examples.append(Example.from_dict(doc, annotation))
+        nlp.update(examples, sgd=optimizer, drop=0.2, losses=losses)
+    print(f"Iteration {i+1}/{N_ITER} - Losses: {losses}")
+
+# Save model
+Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+nlp.to_disk(OUTPUT_DIR)
+print(f"✅ Model saved to {OUTPUT_DIR}")
